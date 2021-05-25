@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import MainTitle,SubTitle
+from .models import MainTitle, SubTitle, Category
 from django.template.defaultfilters import slugify
 
 class SubtitleSerializer(serializers.ModelSerializer):
@@ -21,9 +21,19 @@ class MaintitleSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(required = False)
     class Meta:
         model = MainTitle
-        fields=['id','url','author','title','slug','image','description','created_on','subtitle']
+        fields=['id','url','author','title','slug','image','description','created_on','subtitle','category']
         lookup_field = 'slug'
         extra_kwargs = {
             'url': {'lookup_field': 'slug'}
         }
 
+class CategorySerializer(serializers.ModelSerializer):
+    maintitle = MaintitleSerializer(many=True,read_only=True)
+    
+    class Meta:
+        model = Category
+        fields = ['id','url','name','maintitle']
+        lookup_field = 'slug'
+        extra_kwargs = {
+            'url': {'lookup_field': 'slug'}
+        }

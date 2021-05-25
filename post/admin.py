@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import MainTitle,SubTitle,User
+from .models import MainTitle, SubTitle, Category
 
 # Register your models here.
 
@@ -14,5 +14,7 @@ class SubTitleAdmin(admin.ModelAdmin):
     prepopulated_fields={'slug':('title',)}
     list_display=['title','created_on','available_on']
 
-
-
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    pulated_fields={'slug':('name',)}
+    list_display=['name','slug','created_on']

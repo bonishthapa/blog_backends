@@ -4,9 +4,28 @@ from django.template.defaultfilters import slugify
 from django.urls import reverse
 from user.models import User
 
+class Category(models.Model):
+    name = models.CharField(max_length=250)
+    slug = models.SlugField(unique=True,blank=True,null=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("category", kwargs={
+            'slug': self.slug
+        })
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.slug = slugify(self.name)
+            print(self.slug)
+        super().save(*args, **kwargs)    
 
 class MainTitle(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE,related_name='user',blank=True,null=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user', blank=True, null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='category', blank=True, null=True)
     title = models.CharField(max_length=250,blank=True,null=True)
     slug = models.SlugField(unique=True,blank=True,null=True)
     image = models.ImageField(upload_to='maintitle',blank=True,null=True)

@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.decorators import  action
 from rest_framework.parsers import ParseError
-from .serializers import MaintitleSerializer,SubtitleSerializer
-from post.models import MainTitle,SubTitle
+from .serializers import MaintitleSerializer,SubtitleSerializer, CategorySerializer
+from post.models import MainTitle, SubTitle, Category
 from user.models import User
 from rest_framework import filters
 from django.http import HttpResponse
@@ -67,3 +67,10 @@ class SubtitleApi(viewsets.ModelViewSet):
         except KeyError:
             raise ParseError('Request has no resource file attached')
         subtitle = SubTitle.objects.create(image=file)
+
+class CategoryApi(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    lookup_field = 'slug'
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name']

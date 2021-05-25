@@ -6,6 +6,7 @@ router = DefaultRouter()
 
 router.register('maintitle', views.MaintitleApi, basename='maintitle')
 router.register('subtitle', views.SubtitleApi, basename='subtitle')
+router.register('category', views.CategoryApi, basename='category')
 
 
 urlpatterns = [

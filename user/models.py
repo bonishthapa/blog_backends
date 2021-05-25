@@ -6,7 +6,7 @@ from django.contrib.auth.models import AbstractBaseUser,AbstractUser
 
 class User(AbstractUser):
 
-    username = None
+    # username = None
     email = models.EmailField(_('email address'),unique=True)
     first_name = models.CharField(max_length=150, blank=True)
     last_name = models.CharField(max_length=150, blank=True)
@@ -16,7 +16,7 @@ class User(AbstractUser):
     # is_active = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['username']
 
     def __str__(self):
-        return self.first_name
+        return self.email
